@@ -1,0 +1,21 @@
+{
+  "name": "christmas-2019",
+  "version": "1.0.0",
+  "description": "Merry Christmas 2019",
+  "main": "index.html",
+  "scripts": {
+    "build": "parcel index.html",
+    "start": "nodemon --inspect server.js"
+  },
+  "author": "Remy Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cron": "^1.6.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.4.0",
+    "lowdb": "^1.0.0",
+    "nodemon": "^1.18.9",
+    "web-push": "^3.2.5"
+  }
+}

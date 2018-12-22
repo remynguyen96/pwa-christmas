@@ -1,0 +1,30 @@
+{
+  "lang": "en-US",
+  "name": "Merry Christmas 2019",
+  "short_name": "Christmas",
+  "gcm_sender_id": "310655728905",
+  "gcm_user_visible_only": true,
+  "start_url": "./?utm_source=a2hs",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/icon-128x128.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "images/icon.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-256x256.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "images/icon-512x512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#5EFF81",
+  "theme_color": "#36F467",
+  "display": "standalone"
+}
