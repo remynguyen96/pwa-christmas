@@ -5,7 +5,6 @@ node_modules/
 
 # Compiled output
 build
-dist
 cache
 *.tgz
 

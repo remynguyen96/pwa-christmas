@@ -2,10 +2,9 @@ const OFFLINE_CACHE = 'offline_christmas_2019';
 const STATIC_FILES = [
   '/',
   '404.html',
-  'js/pwacompat.min.js',
-  'js/application-server-key.js',
-  'js/app.js',
-  'styles/app.css',
+  'app.bundle.js',
+  'app.bundle.css',
+  'manifest.webmanifest',
   'images/icon.png',
   'images/icon-128x128.png',
   'images/icon-256x256.png',
@@ -21,65 +20,65 @@ const STATIC_FILES = [
 
 self.addEventListener('install', installEvent => {
   self.skipWaiting();
-  // installEvent.waitUntil((async () => {
-  //   const offlineCache = await caches.open(OFFLINE_CACHE);
-  //   const addCache = await offlineCache.addAll(STATIC_FILES);
-  //
-  //   return addCache;
-  // })());
+  installEvent.waitUntil((async () => {
+    const offlineCache = await caches.open(OFFLINE_CACHE);
+    const addCache = await offlineCache.addAll(STATIC_FILES);
+
+    return addCache;
+  })());
 });
 
 self.addEventListener('activate', activateEvent => {
-  // activateEvent.waitUntil((async () => {
-  //   const keys = await caches.keys();
-  //
-  //   return Promise.all(keys.map(cacheName => {
-  //     if (cacheName !== OFFLINE_CACHE) {
-  //       return caches.delete(cacheName);
-  //     }
-  //   })).then(() => self.clients.claim());
-  // })());
+  activateEvent.waitUntil((async () => {
+    const keys = await caches.keys();
+
+    return Promise.all(keys.map(cacheName => {
+      if (cacheName !== OFFLINE_CACHE) {
+        return caches.delete(cacheName);
+      }
+    })).then(() => self.clients.claim());
+  })());
 });
 
-// self.addEventListener('fetch', fetchEvent => {
-//   const { request } = fetchEvent;
-//
-//   if ((!request.url.startsWith('http')) ||
-//     (request.method !== 'GET')) {
-//     return;
-//   }
-//
-//   if (request.cache === 'only-if-cached' && request.mode !== 'same-origin') {
-//     return;
-//   }
-//
-//   fetchEvent.respondWith((async () => {
-//     try {
-//       const cachedResponse = await caches.match(request);
-//
-//       if (cachedResponse) {
-//         return cachedResponse;
-//       }
-//
-//       const response = await fetch(request);
-//
-//       if (response.status === 404) {
-//         await self.clients.openWindow(`${self.origin}/404.html`);
-//         return caches.match('404.html');
-//       }
-//
-//       return caches.open(OFFLINE_CACHE)
-//         .then(cache => {
-//           cache.put(request.url, response.clone());
-//           return response;
-//         });
-//     } catch (err) {
-//       console.error(err, 'err fetchEvent');
-//       await self.clients.openWindow(`${self.origin}/404.html`);
-//       return caches.match('404.html');
-//     }
-//   })());
-// });
+self.addEventListener('fetch', fetchEvent => {
+  const { request } = fetchEvent;
+
+  if ((!request.url.startsWith('http')) ||
+    (request.method !== 'GET')) {
+    return;
+  }
+
+  if (request.cache === 'only-if-cached' && request.mode !== 'same-origin') {
+    return;
+  }
+
+  fetchEvent.respondWith((async () => {
+    try {
+      const cachedResponse = await caches.match(request);
+
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      const response = await fetch(request);
+
+      if (response.status === 404) {
+        await self.clients.openWindow(`${self.origin}/404.html`);
+        return caches.match('404.html');
+      }
+
+      return caches.open(OFFLINE_CACHE)
+        .then(cache => {
+          cache.put(request.url, response.clone());
+          return response;
+        });
+    } catch (err) {
+      console.error(err, 'err fetchEvent');
+      await self.clients.openWindow(`${self.origin}/404.html`);
+      return caches.match('404.html');
+    }
+  })());
+});
 
 self.addEventListener('push', pushEvent => {
   const { title, author, quote } = pushEvent.data.json();
