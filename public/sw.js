@@ -5,6 +5,7 @@ const STATIC_FILES = [
   'app.bundle.js',
   'app.bundle.css',
   'manifest.webmanifest',
+  'christmas-song.mp3',
   'images/icon.png',
   'images/icon-128x128.png',
   'images/icon-256x256.png',
